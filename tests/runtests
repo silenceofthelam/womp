@@ -1,7 +1,7 @@
-gcc -o wompTests wompTests.c ../src/womp.c $1
+gcc -o wordTests wordTests.c ../src/womp.c ../src/word.c ../src/io.c $1
 
 if [ "$?" -eq 0 ]; then
-	echo "Testing 0 length Wordfile" && ./wompTests 0 < wordlist0
+	echo "Testing 0 length Wordfile" && ./wordTests 0 < wordlist0
 	echo
-	echo "Testing 5 length Wordfile" && ./wompTests 5  < wordlist5
+	echo "Testing 5 length Wordfile" && ./wordTests 5  < wordlist5
 fi
