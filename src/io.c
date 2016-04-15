@@ -6,12 +6,12 @@
 
 static long total_output_words = 0;
 
-void print_to_stdout(char *string_to_print[])
+void print_to_stdout(char *string_to_print)
 {
 	DEBUG("START");
 
 	DEBUG("puts");
-	puts(character_buffer, stdout);
+	puts(string_to_print);
 
 	total_output_words++;
 }
