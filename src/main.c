@@ -8,15 +8,24 @@
 #include <stdlib.h>
 
 #include "./operations_container.h"
-#include "../lib/word.h"
+#include "womp.h"
 
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_steam);
 void operate_on_string(char* operable_string, struct operations* operations);
+void print_usage();
 
 
 /** Constants **/
-const char* command_line_options = "po:i:";
+const char* command_line_options = "po:i:h";
+const char* usage =
+"Usage: womp <options>\n"
+"<options>:\n"
+"-p             permutate all words in input file with every other word in file.\n"
+"-i <filename>  choose which file to read input from.\n"
+"-o <filename>  choose which file to output words to.\n"
+"Default behavior is to read from stdin and write to stdout.\n"
+"womp does not perform any manipulations unless specified.\n";
 
 
 /* The commented out lines
@@ -29,7 +38,7 @@ int main(int argc, char** argv)
 {
   struct operations operations;
   operations.number_of_operations = 0;
-  char *line_buffer;
+  char* line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
   ssize_t num_characters_read;
   int use_temp_file = 1; // True
@@ -57,6 +66,7 @@ int main(int argc, char** argv)
     }
       
     stdin = temporaryFile;
+    fseek(stdin, 0, SEEK_SET);
   }
 
   while((num_characters_read = 
@@ -92,15 +102,15 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
     switch(opt)
     {
       case 'p':
-        printf("P option present.\n");
-        if(!add_operation(operations, permutate))
+  //      printf("P option present.\n");
+        if(!add_operation(operations, permutate_all))
         {
           printf("could not add permutation function to operations\nAborting...\n");
           exit(EXIT_FAILURE);
         }
         break;
       case 'o':
-        printf("O option present with arguement %s.\n", optarg);
+ //       printf("O option present with arguement %s.\n", optarg);
         if(!freopen(optarg, "w", stdout))
         {
           printf("Could not open file '%s'\nAborting.\n", optarg);
@@ -108,7 +118,7 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
         }
         break;
       case 'i':
-        printf("I option present with arguement %s.\n", optarg);
+//        printf("I option present with arguement %s.\n", optarg);
         if(!freopen(optarg, "r", stdin))
         {
           printf("Could not open file '%s'\nAborting.\n", optarg);
@@ -116,7 +126,10 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
         }
         *using_io_stream = 0; // False
         break;
+      case 'h':
       default:
+        print_usage();
+        exit(EXIT_SUCCESS);
         break;
     }
   }
@@ -127,18 +140,11 @@ void operate_on_string(char* operable_string, struct operations* operations)
 {
   for(int i = 0; i < operations->number_of_operations; i++)
   {
-    char* new_string;
-
-    char* (*operation)() = get_function_at(operations, i);
+    void (*operation)() = get_function_at(operations, i);
 
     if(operation != NULL)
     {
-      new_string = operation(operable_string, "con");
-      if(new_string)
-      {
-        puts(new_string);
-        free(new_string);
-      }
+      operation(operable_string, stdin);
     }
     else
     {
@@ -146,4 +152,9 @@ void operate_on_string(char* operable_string, struct operations* operations)
       exit(EXIT_FAILURE);
     }
   }
+}
+
+void print_usage()
+{
+  puts(usage);
 }

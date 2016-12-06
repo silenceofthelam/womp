@@ -9,7 +9,7 @@
 #include "./operations_container.h"
 
 
-int add_operation(struct operations* container, char *(*function)())
+int add_operation(struct operations* container, void (*function)())
 {
   int number_of_operations = container->number_of_operations;
 
@@ -23,7 +23,7 @@ int add_operation(struct operations* container, char *(*function)())
   return 0; // False;
 }
 
-char *(*get_function_at(struct operations* container, int position))()
+void (*get_function_at(struct operations* container, int position))()
 {
   if((position < container->number_of_operations) && (position >= 0))
   {

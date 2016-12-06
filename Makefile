@@ -1,6 +1,6 @@
 DIR = `pwd`
 CC  = gcc
-CFLAGS = -Wall -Werror -g
+CFLAGS = -Wall -Werror
 LD = gcc
 LDFLAGS =
 RM = rm -r -f
@@ -14,7 +14,7 @@ TESTDIR = $(DIR)/test
 
 all:	$(TARGET)
 
-$(TARGET):	build/main.o build/operations_container.o build/word.o
+$(TARGET):	build/main.o build/operations_container.o build/word.o build/womp.o
 		$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 build/main.o:	src/main.c
@@ -25,6 +25,9 @@ build/operations_container.o: src/operations_container.c src/operations_containe
 
 build/word.o:	lib/word.c lib/word.h
 		$(CC) $(CFLAGS) -c -o $@ lib/word.c
+		
+build/womp.o:	src/womp.h src/womp.c
+		$(CC) $(CFLAGS) -c -o $@ src/womp.c
 		
 test: testWord
 
