@@ -5,13 +5,14 @@
 
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv);
 
 
 /** Constants **/
-const char* command_line_options = "poi";
+const char* command_line_options = "po:i:";
 
 
 /* The commented out lines
@@ -57,10 +58,20 @@ void process_commandline_arguements(int argc, char** argv)
         printf("P option present.\n");
         break;
       case 'o':
-        printf("O option present.\n");
+        printf("O option present with arguement %s.\n", optarg);
+        if(!freopen(optarg, "w", stdout))
+        {
+          printf("Could not open file '%s'\nAborting.\n", optarg);
+          exit(EXIT_FAILURE);
+        }
         break;
       case 'i':
-        printf("I option present.\n");
+        printf("I option present with arguement %s.\n", optarg);
+        if(!freopen(optarg, "r", stdin))
+        {
+          printf("Could not open file '%s'\nAborting.\n", optarg);
+          exit(EXIT_FAILURE);
+        }
         break;
       default:
         break;
