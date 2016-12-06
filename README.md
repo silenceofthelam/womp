@@ -7,7 +7,7 @@ Code written by Dustin LaMiaux - SilenceOfTheLam
 
 This program is intended for manipulating and creating wordlists that may be utilized by other programs; more specifically, creating wordlists that might be valuable to a penetration tester. 
 
-Development of a first release is still underway. The first version will be released once basic funtionality of creating a wordlist by combining multiple words together, either from standard input or from an already existing text file.
+This is the first released version. Womp has the basic funtionality of creating a wordlist by combining multiple words together, either from standard input or from an already existing text file.
 
 Copyright (C) 2016 Dustin LaMiaux
 
