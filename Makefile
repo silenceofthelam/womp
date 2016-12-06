@@ -14,7 +14,7 @@ TESTDIR = $(DIR)/test
 
 all:	$(TARGET)
 
-$(TARGET):	build/main.o build/operations_container.o
+$(TARGET):	build/main.o build/operations_container.o build/word.o
 		$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 build/main.o:	src/main.c
@@ -23,6 +23,9 @@ build/main.o:	src/main.c
 build/operations_container.o: src/operations_container.c src/operations_container.h
 		$(CC) $(CFLAGS) -c -o $@ src/operations_container.c
 
+build/word.o:	lib/word.c lib/word.h
+		$(CC) $(CFLAGS) -c -o $@ lib/word.c
+		
 test: testWord
 
 testWord:	

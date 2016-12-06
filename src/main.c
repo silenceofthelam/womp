@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include "./operations_container.h"
+#include "../lib/word.h"
 
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations);
@@ -58,6 +59,7 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
     {
       case 'p':
         printf("P option present.\n");
+        add_operation(operations, permutate);
         break;
       case 'o':
         printf("O option present with arguement %s.\n", optarg);
