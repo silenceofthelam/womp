@@ -11,7 +11,7 @@
 #include "../lib/word.h"
 
 /** Forward Declarations **/
-void process_commandline_arguements(int argc, char** argv, struct operations* operations);
+void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_steam);
 void operate_on_string(char* operable_string, struct operations* operations);
 
 
@@ -32,8 +32,10 @@ int main(int argc, char** argv)
   char *line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
   ssize_t num_characters_read;
+  int use_temp_file = 1; // True
+  FILE* temporaryFile;
 
-  process_commandline_arguements(argc, argv, &operations);
+  process_commandline_arguements(argc, argv, &operations, &use_temp_file);
 
   line_buffer = malloc(length_of_line_buffer);
 
@@ -45,6 +47,17 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
     
+  if(use_temp_file)
+  {
+    temporaryFile = tmpfile();
+    while((num_characters_read = 
+           getline(&line_buffer, &length_of_line_buffer, stdin)) != -1)
+    {
+      fprintf(temporaryFile, "%s", line_buffer);
+    }
+      
+    stdin = temporaryFile;
+  }
 
   while((num_characters_read = 
          getline(&line_buffer, &length_of_line_buffer, stdin)) != -1)
@@ -58,6 +71,7 @@ int main(int argc, char** argv)
     operate_on_string(line_buffer, &operations);
   }
 
+
   /*if(show_stats)
   {
     print_stats();
@@ -69,7 +83,7 @@ int main(int argc, char** argv)
 }
 
 
-void process_commandline_arguements(int argc, char** argv, struct operations* operations)
+void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_stream)
 {
   int opt;
 
@@ -100,6 +114,7 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
           printf("Could not open file '%s'\nAborting.\n", optarg);
           exit(EXIT_FAILURE);
         }
+        *using_io_stream = 0; // False
         break;
       default:
         break;
@@ -119,18 +134,16 @@ void operate_on_string(char* operable_string, struct operations* operations)
     if(operation != NULL)
     {
       new_string = operation(operable_string, "con");
+      if(new_string)
+      {
+        puts(new_string);
+        free(new_string);
+      }
     }
     else
     {
       printf("Could not get the operation function.\nAborting...\n");
       exit(EXIT_FAILURE);
-    }
-
-
-    if(new_string)
-    {
-      puts(new_string);
-      free(new_string);
     }
   }
 }
