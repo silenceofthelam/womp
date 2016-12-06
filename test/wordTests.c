@@ -2,20 +2,13 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include "./wordTests.h"
-#include "../src/word.h"
+#include "../lib/word.h"
 
 #define RUN_TEST(F,T, ...) assert((((F)(__VA_ARGS__))==(T))); tests_passed++
 
-int main(int argc, char** argv)
-{
-	return run_all_tests(argv[1]);
-}
-
-int run_all_tests(char *num_words)
+int run_all_tests()
 {
 	int tests_passed = 0, tests_failed = 0;
-	char wordlist_file[30];
 
 	RUN_TEST(strcmp, 0, permutate("tree", "dog"), "treedog");
 	RUN_TEST(strcmp, 0, capitalize_nth_character("dog", 1), "Dog");
@@ -29,3 +22,9 @@ int run_all_tests(char *num_words)
 
 	return tests_failed;
 }
+
+int main(int argc, char** argv)
+{
+	return run_all_tests();
+}
+

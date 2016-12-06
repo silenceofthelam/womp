@@ -7,3 +7,8 @@
 
 #define MAX_BUFFER_SIZE 512
 
+
+int main(int argc, char **argv)
+{
+	
+}

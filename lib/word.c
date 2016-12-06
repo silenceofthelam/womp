@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "./debug.h"
+#include "../src/debug.h"
 
 char * permutate(char *first_word, char *second_word)
 {
