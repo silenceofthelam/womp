@@ -10,7 +10,7 @@
 #include "./operations_container.h"
 
 /** Forward Declarations **/
-void process_commandline_arguements(int argc, char** argv);
+void process_commandline_arguements(int argc, char** argv, struct operations* operations);
 
 
 /** Constants **/
@@ -25,8 +25,9 @@ They are more of a pseudocode than anything.
 
 int main(int argc, char** argv)
 {
+  struct operations operations;
 
-  process_commandline_arguements(argc, argv);
+  process_commandline_arguements(argc, argv, &operations);
 
 
   /*while(!EOF)
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
 }
 
 
-void process_commandline_arguements(int argc, char** argv)
+void process_commandline_arguements(int argc, char** argv, struct operations* operations)
 {
   int opt;
 
