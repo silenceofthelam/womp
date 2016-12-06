@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "./operations_container.h"
+
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv);
 
@@ -26,7 +28,6 @@ int main(int argc, char** argv)
 
   process_commandline_arguements(argc, argv);
 
-  // open(output);
 
   /*while(!EOF)
   {
