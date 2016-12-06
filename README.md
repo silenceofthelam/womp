@@ -9,6 +9,8 @@ This program is intended for manipulating and creating wordlists that may be uti
 
 This is the first released version. Womp has the basic funtionality of creating a wordlist by combining multiple words together, either from standard input or from an already existing text file.
 
+All compilation and testing was done on the current Kali Linux distribution at the time (Dec 2016) using gcc version 5.3.1. 
+
 Copyright (C) 2016 Dustin LaMiaux
 
 This program is free software: you can redistribute it and/or modify
