@@ -1,6 +1,6 @@
 DIR = `pwd`
 CC  = gcc
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall -Werror -g
 LD = gcc
 LDFLAGS =
 RM = rm -r -f

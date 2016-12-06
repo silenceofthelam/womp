@@ -25,7 +25,7 @@ int add_operation(struct operations* container, char *(*function)())
 
 char *(*get_function_at(struct operations* container, int position))()
 {
-  if((position < container->number_of_operations) && (position > 0))
+  if((position < container->number_of_operations) && (position >= 0))
   {
     return container->functions[position];
   }
