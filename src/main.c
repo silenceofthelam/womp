@@ -10,6 +10,7 @@
 #include "./womp_defines.h"
 #include "./running_config.h"
 #include "./operations_container.h"
+#include "./io.h"
 #include "./womp.h"
 
 /** Forward Declarations **/
@@ -39,7 +40,6 @@ int main(int argc, char** argv)
   struct running_config config;
   char* line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
-  ssize_t num_characters_read;
 
 
   initialize_operations(&operations);
@@ -56,15 +56,8 @@ int main(int argc, char** argv)
     stdin = createTemporaryFile(&line_buffer, &length_of_line_buffer);
   }
 
-  while((num_characters_read = 
-         getline(&line_buffer, &length_of_line_buffer, stdin)) != -1)
+  while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    // Get rid of trailing newline
-    if(line_buffer[num_characters_read - 1] == '\n')
-    {
-      line_buffer[num_characters_read - 1] = '\0';
-    }
-
     operate_on_string(line_buffer, &operations, &config);
   }
 
@@ -121,11 +114,9 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
 FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
 {
   FILE* temporaryFile;
-  int num_characters_read = 0;
 
   temporaryFile = tmpfile();
-  while((num_characters_read = 
-         getline(line_buffer, length_of_line_buffer, stdin)) != -1)
+  while(getline(line_buffer, length_of_line_buffer, stdin) != -1)
   {
     fprintf(temporaryFile, "%s", *line_buffer);
   }

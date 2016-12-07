@@ -6,7 +6,6 @@ void permutate_all(char* string, struct running_config* config)
   long int orig_stdin_file_position;
   char* line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
-  ssize_t num_characters_read;
   char* new_string;
 
 
@@ -39,15 +38,8 @@ void permutate_all(char* string, struct running_config* config)
   }
 
 
-  while((num_characters_read = 
-         getline(&line_buffer, &length_of_line_buffer, stdin)) != -1)
+  while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    // Get rid of trailing newline
-    if(line_buffer[num_characters_read - 1] == '\n')
-    {
-      line_buffer[num_characters_read - 1] = '\0';
-    }
-
     new_string = permutate(string, line_buffer);
 
     if(new_string)
