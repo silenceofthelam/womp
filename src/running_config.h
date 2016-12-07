@@ -12,8 +12,10 @@
 
 struct running_config {
   int performing_permutation;
-  FILE* original_stdout;
   int using_input_stream;
+  FILE* original_stdin;
+  FILE* original_stdout;
+  FILE* temp_file;
 };
 
 void default_config(struct running_config* config);
