@@ -53,7 +53,8 @@ int main(int argc, char** argv)
   // Need a file if using permutation to seek in file
   if(config.performing_permutation && config.using_input_stream)
   {
-    stdin = createTemporaryFile(&line_buffer, &length_of_line_buffer);
+    config.temp_file = createTemporaryFile(&line_buffer, &length_of_line_buffer);
+    stdin = config.temp_file;
   }
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
@@ -72,6 +73,10 @@ int main(int argc, char** argv)
   }*/
 
   free(line_buffer);
+  if(config.temp_file != NULL)
+  {
+    fclose(config.temp_file);
+  }
 
   return 0;
 }
