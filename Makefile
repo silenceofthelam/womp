@@ -23,18 +23,18 @@ build/main.o:	src/main.c src/womp_defines.h
 build/running_config.o:	src/running_config.h src/running_config.c
 		$(CC) $(CFLAGS) -c -o $@ src/running_config.c
 
-build/operations_container.o: src/operations_container.h src/operations_container.c
+build/operations_container.o:	src/operations_container.h src/operations_container.c
 		$(CC) $(CFLAGS) -c -o $@ src/operations_container.c
 
 build/word.o:	lib/word.h lib/word.c
 		$(CC) $(CFLAGS) -c -o $@ lib/word.c
-		
-build/io.o:	src/io.o src/io.h
+
+build/io.o:	src/io.c src/io.h
 		$(CC) $(CFLAGS) -c -o $@ src/io.c
-		
+
 build/womp.o:	src/womp.h src/womp.c
 		$(CC) $(CFLAGS) -c -o $@ src/womp.c
-		
+
 test: testWord
 
 testWord:	
