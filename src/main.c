@@ -139,8 +139,7 @@ void operate_on_string(char* operable_string, struct operations* operations,
     }
     else
     {
-      printf("Could not get the operation function.\nAborting...\n");
-      exit(EXIT_FAILURE);
+      DIE("Could not get the operation function.", EXIT_FAILURE);
     }
   }
 }

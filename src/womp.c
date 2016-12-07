@@ -11,32 +11,24 @@ void permutate_all(char* string, struct running_config* config)
 
   if(!stdin)
   {
-    printf("input not a valid file descriptor.\nExiting function permutate_all");
+    fputs("input not a valid file descriptor.\nExiting function permutate_all\n", stderr);
     return;
   }
 
   line_buffer = malloc(length_of_line_buffer);
-
-  if(!line_buffer)
-  {
-    free(line_buffer);
-    printf("Could allocate memory for line buffer.\n");
-    printf("Aborting...\n");
-    exit(EXIT_FAILURE);
-  }
+  memcheck(line_buffer);
 
   orig_stdin_file_position = ftell(stdin);
 
   if(fseek(stdin, 0, SEEK_SET) != 0)
   {
-    printf("Could not seek to beginnin of input.\nExiting function permutate_all");
+    fputs("Could not seek to beginnin of input.\nExiting function permutate_all\n", stderr);
     if(line_buffer)
     {
       free(line_buffer);
     }
     return;
   }
-
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
@@ -51,9 +43,11 @@ void permutate_all(char* string, struct running_config* config)
 
   if(fseek(stdin, orig_stdin_file_position, SEEK_SET) != 0)
   {
-    printf("Could not seek to original input position.\nAborting...\n");
-    exit(EXIT_FAILURE);
+    DIE("Could not seek to original input position.", EXIT_FAILURE);
   }
 
-  free(line_buffer);
+  if(line_buffer)
+  {
+    free(line_buffer);
+  }
 }
