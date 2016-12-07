@@ -7,6 +7,8 @@
 #define __womp_defines__h
 
 #define DIE(message, status) \
-  fputs((message), stderr); exit((status))
+  fputs((message "\nAborting\n"), stderr); exit((status))
+
+#define memcheck(mem) if(!mem) { DIE("Could not allocate memory.", EXIT_FAILURE); }
 
 #endif

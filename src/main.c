@@ -41,6 +41,7 @@ int main(int argc, char** argv)
   ssize_t num_characters_read;
   FILE* temporaryFile;
 
+
   initialize_operations(&operations);
   default_config(&config);
 
@@ -48,12 +49,14 @@ int main(int argc, char** argv)
 
   line_buffer = malloc(length_of_line_buffer);
 
-  if(!line_buffer)
+  memcheck(line_buffer);
+  /*if(!line_buffer)
   {
     printf("Could allocate memory for line buffer.\n");
     printf("Aborting...\n");
     exit(EXIT_FAILURE);
   }
+  */
     
   // Need a file if using permutation to seek in file
   if(config.performing_permutation && config.using_input_stream)

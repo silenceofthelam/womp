@@ -17,8 +17,8 @@ all:	$(TARGET)
 $(TARGET):	build/main.o build/operations_container.o build/word.o build/womp.o build/running_config.o
 		$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-build/main.o:	src/main.c
-		$(CC) $(CFLAGS) -c -o $@ $^
+build/main.o:	src/main.c src/womp_defines.h
+		$(CC) $(CFLAGS) -c -o $@ src/main.c
 
 build/running_config.o:	src/running_config.h src/running_config.c
 		$(CC) $(CFLAGS) -c -o $@ src/running_config.c
