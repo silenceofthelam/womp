@@ -15,6 +15,7 @@
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, 
                                     struct running_config* config);
+FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer);
 void operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config);
 void print_usage();
@@ -39,7 +40,6 @@ int main(int argc, char** argv)
   char* line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
   ssize_t num_characters_read;
-  FILE* temporaryFile;
 
 
   initialize_operations(&operations);
@@ -61,15 +61,7 @@ int main(int argc, char** argv)
   // Need a file if using permutation to seek in file
   if(config.performing_permutation && config.using_input_stream)
   {
-    temporaryFile = tmpfile();
-    while((num_characters_read = 
-           getline(&line_buffer, &length_of_line_buffer, stdin)) != -1)
-    {
-      fprintf(temporaryFile, "%s", line_buffer);
-    }
-      
-    stdin = temporaryFile;
-    fseek(stdin, 0, SEEK_SET);
+    stdin = createTemporaryFile(&line_buffer, &length_of_line_buffer);
   }
 
   while((num_characters_read = 
@@ -140,6 +132,22 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
   }
 }
 
+FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
+{
+  FILE* temporaryFile;
+  int num_characters_read = 0;
+
+  temporaryFile = tmpfile();
+  while((num_characters_read = 
+         getline(line_buffer, length_of_line_buffer, stdin)) != -1)
+  {
+    fprintf(temporaryFile, "%s", *line_buffer);
+  }
+    
+  fseek(temporaryFile, 0, SEEK_SET);
+  
+  return temporaryFile;
+}
 
 void operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config)
