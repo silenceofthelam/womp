@@ -48,15 +48,7 @@ int main(int argc, char** argv)
   process_commandline_arguements(argc, argv, &operations, &config);
 
   line_buffer = malloc(length_of_line_buffer);
-
   memcheck(line_buffer);
-  /*if(!line_buffer)
-  {
-    printf("Could allocate memory for line buffer.\n");
-    printf("Aborting...\n");
-    exit(EXIT_FAILURE);
-  }
-  */
     
   // Need a file if using permutation to seek in file
   if(config.performing_permutation && config.using_input_stream)
@@ -98,28 +90,22 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
     switch(opt)
     {
       case 'p':
-  //      printf("P option present.\n");
         if(!add_operation(operations, permutate_all))
         {
-          printf("could not add permutation function to operations\nAborting...\n");
-          exit(EXIT_FAILURE);
+          DIE("Could not add permutation function to operations.", EXIT_FAILURE);
         }
         config->performing_permutation = 1; // True
         break;
       case 'o':
- //       printf("O option present with arguement %s.\n", optarg);
         if(!freopen(optarg, "w", stdout))
         {
-          printf("Could not open file '%s'\nAborting.\n", optarg);
-          exit(EXIT_FAILURE);
+          DIE("Could not open file specified by -o option.", EXIT_FAILURE);
         }
         break;
       case 'i':
-//        printf("I option present with arguement %s.\n", optarg);
         if(!freopen(optarg, "r", stdin))
         {
-          printf("Could not open file '%s'\nAborting.\n", optarg);
-          exit(EXIT_FAILURE);
+          DIE("Could not open file specified by -i option.", EXIT_FAILURE);
         }
         config->using_input_stream = 0; // False
         break;
