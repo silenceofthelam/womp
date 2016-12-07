@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "./womp_defines.h"
 #include "./running_config.h"
 #include "./operations_container.h"
 #include "./womp.h"
