@@ -41,7 +41,8 @@ int main(int argc, char** argv)
   ssize_t num_characters_read;
   FILE* temporaryFile;
 
-  operations.number_of_operations = 0;
+  initialize_operations(&operations);
+  default_config(&config);
 
   process_commandline_arguements(argc, argv, &operations, &config);
 

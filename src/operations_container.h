@@ -20,6 +20,7 @@ struct operations {
     (char** first_string, FILE* input);
 };
 
+void initialize_operations(struct operations* operations);
 
 int add_operation(struct operations* container, void (*function)());
 

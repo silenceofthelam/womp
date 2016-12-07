@@ -14,16 +14,20 @@ TESTDIR = $(DIR)/test
 
 all:	$(TARGET)
 
-$(TARGET):	build/main.o build/operations_container.o build/word.o build/womp.o
+$(TARGET):	build/main.o build/operations_container.o build/word.o build/womp.o build/running_config.o
 		$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 build/main.o:	src/main.c
 		$(CC) $(CFLAGS) -c -o $@ $^
 
-build/operations_container.o: src/operations_container.c src/operations_container.h
+build/running_config.o:	src/running_config.h src/running_config.c
+		$(CC) $(CFLAGS) -c -o $@ src/running_config.c
+		
+
+build/operations_container.o: src/operations_container.h src/operations_container.c
 		$(CC) $(CFLAGS) -c -o $@ src/operations_container.c
 
-build/word.o:	lib/word.c lib/word.h
+build/word.o:	lib/word.h lib/word.c
 		$(CC) $(CFLAGS) -c -o $@ lib/word.c
 		
 build/womp.o:	src/womp.h src/womp.c

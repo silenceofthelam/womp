@@ -8,6 +8,10 @@
 
 #include "./operations_container.h"
 
+void initialize_operations(struct operations* operations)
+{
+  operations->number_of_operations = 0;
+}
 
 int add_operation(struct operations* container, void (*function)())
 {
