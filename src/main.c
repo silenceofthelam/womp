@@ -17,7 +17,7 @@
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, 
                                     struct running_config* config);
 FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer);
-void operate_on_string(char* operable_string, struct operations* operations,
+int operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config);
 void print_usage();
 
@@ -58,7 +58,11 @@ int main(int argc, char** argv)
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    operate_on_string(line_buffer, &operations, &config);
+    if(!operate_on_string(line_buffer, &operations, &config))
+    {
+      free(line_buffer);
+      DIE("Could not get the operation function.", EXIT_FAILURE);
+    }
   }
 
 
@@ -126,7 +130,7 @@ FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
   return temporaryFile;
 }
 
-void operate_on_string(char* operable_string, struct operations* operations,
+int operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config)
 {
   for(int i = 0; i < operations->number_of_operations; i++)
@@ -139,9 +143,11 @@ void operate_on_string(char* operable_string, struct operations* operations,
     }
     else
     {
-      DIE("Could not get the operation function.", EXIT_FAILURE);
+      return 0; // False
     }
   }
+
+  return 1; // True
 }
 
 void print_usage()
