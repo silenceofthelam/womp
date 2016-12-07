@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #include "./operations_container.h"
-#include "womp.h"
+#include "./womp.h"
 
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_steam);
@@ -28,12 +28,6 @@ const char* usage =
 "womp does not perform any manipulations unless specified.\n";
 
 
-/* The commented out lines
-are functions/operations that
-are to be implemented at a later date.
-They are more of a pseudocode than anything.
-*/
-
 int main(int argc, char** argv)
 {
   struct operations operations;
@@ -50,7 +44,6 @@ int main(int argc, char** argv)
 
   if(!line_buffer)
   {
-    free(line_buffer);
     printf("Could allocate memory for line buffer.\n");
     printf("Aborting...\n");
     exit(EXIT_FAILURE);
