@@ -29,8 +29,8 @@ build/operations_container.o:	src/operations_container.h src/operations_containe
 build/word.o:	lib/word.h lib/word.c
 		$(CC) $(CFLAGS) -c -o $@ lib/word.c
 
-build/io.o:	src/io.c src/io.h
-		$(CC) $(CFLAGS) -c -o $@ src/io.c
+build/io.o:	lib/io.c lib/io.h
+		$(CC) $(CFLAGS) -c -o $@ lib/io.c
 
 build/womp.o:	src/womp.h src/womp.c
 		$(CC) $(CFLAGS) -c -o $@ src/womp.c

@@ -10,8 +10,8 @@
 #include "./womp_defines.h"
 #include "./running_config.h"
 #include "./operations_container.h"
-#include "./io.h"
 #include "./womp.h"
+#include "../lib/io.h"
 
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, 
