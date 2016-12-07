@@ -7,12 +7,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "./running_config.h"
 #include "./operations_container.h"
 #include "./womp.h"
 
 /** Forward Declarations **/
-void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_steam);
-void operate_on_string(char* operable_string, struct operations* operations);
+void process_commandline_arguements(int argc, char** argv, struct operations* operations, 
+                                    struct running_config* config);
+void operate_on_string(char* operable_string, struct operations* operations,
+                       struct running_config* config);
 void print_usage();
 
 
@@ -31,14 +34,15 @@ const char* usage =
 int main(int argc, char** argv)
 {
   struct operations operations;
-  operations.number_of_operations = 0;
+  struct running_config config;
   char* line_buffer;
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
   ssize_t num_characters_read;
-  int use_temp_file = 1; // True
   FILE* temporaryFile;
 
-  process_commandline_arguements(argc, argv, &operations, &use_temp_file);
+  operations.number_of_operations = 0;
+
+  process_commandline_arguements(argc, argv, &operations, &config);
 
   line_buffer = malloc(length_of_line_buffer);
 
@@ -49,7 +53,8 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
     
-  if(use_temp_file)
+  // Need a file if using permutation to seek in file
+  if(config.performing_permutation && config.using_input_stream)
   {
     temporaryFile = tmpfile();
     while((num_characters_read = 
@@ -71,7 +76,7 @@ int main(int argc, char** argv)
       line_buffer[num_characters_read - 1] = '\0';
     }
 
-    operate_on_string(line_buffer, &operations);
+    operate_on_string(line_buffer, &operations, &config);
   }
 
 
@@ -86,7 +91,8 @@ int main(int argc, char** argv)
 }
 
 
-void process_commandline_arguements(int argc, char** argv, struct operations* operations, int* using_io_stream)
+void process_commandline_arguements(int argc, char** argv, struct operations* operations,
+                                    struct running_config* config)
 {
   int opt;
 
@@ -101,6 +107,7 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
           printf("could not add permutation function to operations\nAborting...\n");
           exit(EXIT_FAILURE);
         }
+        config->performing_permutation = 1; // True
         break;
       case 'o':
  //       printf("O option present with arguement %s.\n", optarg);
@@ -117,7 +124,7 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
           printf("Could not open file '%s'\nAborting.\n", optarg);
           exit(EXIT_FAILURE);
         }
-        *using_io_stream = 0; // False
+        config->using_input_stream = 0; // False
         break;
       case 'h':
       default:
@@ -129,7 +136,8 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
 }
 
 
-void operate_on_string(char* operable_string, struct operations* operations)
+void operate_on_string(char* operable_string, struct operations* operations,
+                       struct running_config* config)
 {
   for(int i = 0; i < operations->number_of_operations; i++)
   {
@@ -137,7 +145,7 @@ void operate_on_string(char* operable_string, struct operations* operations)
 
     if(operation != NULL)
     {
-      operation(operable_string, stdin);
+      operation(operable_string, config);
     }
     else
     {

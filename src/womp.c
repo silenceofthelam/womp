@@ -1,7 +1,7 @@
 #include "./womp.h"
 
 
-void permutate_all(char* string, FILE* input)
+void permutate_all(char* string, struct running_config* config)
 { 
   long int orig_stdin_file_position;
   char* line_buffer;
@@ -26,7 +26,6 @@ void permutate_all(char* string, FILE* input)
     exit(EXIT_FAILURE);
   }
 
-  fflush(stdin);
   orig_stdin_file_position = ftell(stdin);
 
   if(fseek(stdin, 0, SEEK_SET) != 0)

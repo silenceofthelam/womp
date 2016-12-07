@@ -9,5 +9,7 @@
 
 void default_config(struct running_config* config)
 {
-  config->performing_permutation = false;
+  config->performing_permutation = 0; // False
+  config->original_stdout = stdout;
+  config->using_input_stream = 1; // True
 }
