@@ -1,3 +1,10 @@
+/** The operations
+  * performed on the strings
+  * by the womp main program.
+  *
+  * @file womp.h
+  */
+
 #ifndef __womp__h
 #define __womp__h
 
