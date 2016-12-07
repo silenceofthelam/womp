@@ -30,10 +30,7 @@ void permutate_all(char* string, struct running_config* config)
   if(fseek(stdin, 0, SEEK_SET) != 0)
   {
     fputs("Could not seek to beginnin of input.\nExiting function permutate_all\n", stderr);
-    if(line_buffer)
-    {
-      free(line_buffer);
-    }
+    free(line_buffer);
     return;
   }
 
@@ -50,11 +47,9 @@ void permutate_all(char* string, struct running_config* config)
 
   if(fseek(stdin, orig_stdin_file_position, SEEK_SET) != 0)
   {
+    free(line_buffer);
     DIE("Could not seek to original input position.", EXIT_FAILURE);
   }
 
-  if(line_buffer)
-  {
-    free(line_buffer);
-  }
+  free(line_buffer);
 }
