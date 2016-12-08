@@ -17,8 +17,11 @@ char * concatenate(char *first_word, char *second_word)
 
 	concatenated_string = malloc(new_string_length);
 
-	strcpy(concatenated_string, first_word);
-	strcat(concatenated_string, second_word);
+  if(concatenated_string != NULL)
+  {
+    strcpy(concatenated_string, first_word);
+    strcat(concatenated_string, second_word);
+  }
 
 	return concatenated_string;
 }	
