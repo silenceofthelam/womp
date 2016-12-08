@@ -35,11 +35,11 @@ build/io.o:	lib/io.c lib/io.h
 build/womp.o:	src/womp.h src/womp.c
 		$(CC) $(CFLAGS) -c -o $@ src/womp.c
 
-test: testWord
+test: testStringMan
 
-testWord:	
-		$(CC) $(CFLAGS) -o test/testWord test/wordTests.c lib/word.c
-		test/testWord
+testStringMan:	
+		$(CC) $(CFLAGS) -o test/testStringMan test/string_manipulationTests.c lib/string_manipulations.c
+		test/testStringMan
 
 clean:
 		find $(BUILDDIR) -type f -not -name 'readme.txt' -delete

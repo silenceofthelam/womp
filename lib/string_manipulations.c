@@ -38,16 +38,14 @@ char * capitalize_nth_character(char *original_word, int character_to_capitalize
   {
     for(i = 0; i < strlen(original_word); i++)
     {
+      new_word[i] = original_word[i];
+
       if(i == (character_to_capitalize - 1))
       {
         if(original_word[i] >= 'a' && original_word[i] <= 'z')
         {
           new_word[i] = original_word[i] - ('a' - 'A');
         }
-      }
-      else
-      {
-        new_word[i] = original_word[i];
       }
     }
 
