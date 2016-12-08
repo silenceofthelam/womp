@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
+#include "string_manipulations.h"
 
 char * concatenate(char *first_word, char *second_word)
 {

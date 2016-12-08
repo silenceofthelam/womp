@@ -14,7 +14,7 @@ TESTDIR = $(DIR)/test
 
 all:	$(TARGET)
 
-$(TARGET):	build/main.o build/operations_container.o build/word.o build/womp.o build/running_config.o build/io.o
+$(TARGET):	build/main.o build/operations_container.o build/string_manipulations.o build/womp.o build/running_config.o build/io.o
 		$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 build/main.o:	src/main.c src/womp_defines.h
@@ -26,8 +26,8 @@ build/running_config.o:	src/running_config.h src/running_config.c
 build/operations_container.o:	src/operations_container.h src/operations_container.c
 		$(CC) $(CFLAGS) -c -o $@ src/operations_container.c
 
-build/word.o:	lib/word.h lib/word.c
-		$(CC) $(CFLAGS) -c -o $@ lib/word.c
+build/string_manipulations.o:	lib/string_manipulations.h lib/string_manipulations.c
+		$(CC) $(CFLAGS) -c -o $@ lib/string_manipulations.c
 
 build/io.o:	lib/io.c lib/io.h
 		$(CC) $(CFLAGS) -c -o $@ lib/io.c

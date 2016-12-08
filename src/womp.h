@@ -13,7 +13,7 @@
 #include "./womp_defines.h"
 #include "./running_config.h"
 #include "../lib/io.h"
-#include "../lib/word.h"
+#include "../lib/string_manipulations.h"
 
 void permutate_all(char* string, struct running_config* config);
 
