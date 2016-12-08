@@ -8,6 +8,7 @@
 
 #include "string_manipulations.h"
 
+
 char * concatenate(char *first_word, char *second_word)
 {
 	int new_string_length;
