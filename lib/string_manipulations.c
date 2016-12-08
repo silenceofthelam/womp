@@ -11,16 +11,16 @@
 char * concatenate(char *first_word, char *second_word)
 {
 	int new_string_length;
-	char *permutated_string;
+	char *concatenated_string;
 
 	new_string_length = strlen(first_word) + strlen(second_word) + 1;
 
-	permutated_string = (char *)malloc(new_string_length);
+	concatenated_string = malloc(new_string_length);
 
-	strcpy(permutated_string, first_word);
-	strcat(permutated_string, second_word);
+	strcpy(concatenated_string, first_word);
+	strcat(concatenated_string, second_word);
 
-	return permutated_string;
+	return concatenated_string;
 }	
 
 char * capitalize_nth_character(char *original_word, int character_to_capitalize)
