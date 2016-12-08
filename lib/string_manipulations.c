@@ -1,3 +1,11 @@
+/** Functions to manipulate strings.
+  * Each function returns a pointer
+  * to a new string. This new pointer
+  * must be freed by the client.
+  *
+  * @file string_manipulations.c
+  */
+
 #include "string_manipulations.h"
 
 char * concatenate(char *first_word, char *second_word)
