@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char * permutate(char *first_word, char *second_word)
+char * concatenate(char *first_word, char *second_word)
 {
 	int new_string_length;
 	char *permutated_string;
@@ -35,14 +35,4 @@ char * capitalize_nth_character(char *original_word, int character_to_capitalize
 	new_word[i] = '\0';
 
 	return new_word;
-}
-
-char * prepend_string(char *original_word, char *string_to_prepend)
-{
-	return permutate(string_to_prepend, original_word);
-}
-
-char * append_string(char *original_word, char *string_to_append)
-{
-	return permutate(original_word, string_to_append);
 }

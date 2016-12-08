@@ -36,7 +36,7 @@ void permutate_all(char* string, struct running_config* config)
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    new_string = permutate(string, line_buffer);
+    new_string = concatenate(string, line_buffer);
 
     if(new_string)
     {
