@@ -23,9 +23,12 @@
 #ifndef __womp_defines__h
 #define __womp_defines__h
 
+
 #define DIE(message, status) \
   fputs((message "\nAborting\n"), stderr); exit((status))
 
 #define memcheck(mem) if(!mem) { DIE("Could not allocate memory.", EXIT_FAILURE); }
+
+enum WOMP_STATUS { WOMP_OK = 0, WOMP_NOT_OK = 1 };
 
 #endif
