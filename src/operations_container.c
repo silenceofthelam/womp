@@ -28,7 +28,7 @@ void initialize_operations(struct operations* operations)
   operations->number_of_operations = 0;
 }
 
-int add_operation(struct operations* container, void (*function)())
+int add_operation(struct operations* container, int (*function)())
 {
   int number_of_operations = container->number_of_operations;
 
@@ -42,7 +42,7 @@ int add_operation(struct operations* container, void (*function)())
   return 0; // False;
 }
 
-void (*get_function_at(struct operations* container, int position))()
+int (*get_function_at(struct operations* container, int position))()
 {
   if((position < container->number_of_operations) && (position >= 0))
   {

@@ -155,7 +155,7 @@ int operate_on_string(char* operable_string, struct operations* operations,
 {
   for(int i = 0; i < operations->number_of_operations; i++)
   {
-    void (*operation)() = get_function_at(operations, i);
+    int (*operation)() = get_function_at(operations, i);
 
     if(operation != NULL)
     {

@@ -26,19 +26,20 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include "./running_config.h"
 
 #define MAX_DEFINED_OPERATIONS 1
 
 struct operations {
   int number_of_operations;
-  void (*functions[MAX_DEFINED_OPERATIONS])
-    (char** first_string, FILE* input);
+  int (*functions[MAX_DEFINED_OPERATIONS]) // Array of pointers to
+    (char* first_string, struct running_config* config); // functions
 };
 
 void initialize_operations(struct operations* operations);
 
-int add_operation(struct operations* container, void (*function)());
+int add_operation(struct operations* container, int (*function)());
 
-void (*get_function_at(struct operations* container, int position))();
+int (*get_function_at(struct operations* container, int position))();
 
 #endif

@@ -30,6 +30,6 @@
 #include "../lib/io.h"
 #include "../lib/string_manipulations.h"
 
-void permutate_all(char* string, struct running_config* config);
+int permutate_all(char* string, struct running_config* config);
 
 #endif

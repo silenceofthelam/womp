@@ -27,16 +27,20 @@
 char * concatenate(char *first_word, char *second_word)
 {
 	int new_string_length;
-	char *concatenated_string;
+	char *concatenated_string = NULL;
 
-	new_string_length = strlen(first_word) + strlen(second_word) + 1;
-
-	concatenated_string = malloc(new_string_length);
-
-  if(concatenated_string != NULL)
+  if(!(first_word == NULL || second_word == NULL))
   {
-    strcpy(concatenated_string, first_word);
-    strcat(concatenated_string, second_word);
+
+    new_string_length = strlen(first_word) + strlen(second_word) + 1;
+
+    concatenated_string = malloc(new_string_length);
+
+    if(concatenated_string != NULL)
+    {
+      strcpy(concatenated_string, first_word);
+      strcat(concatenated_string, second_word);
+    }
   }
 
 	return concatenated_string;
@@ -44,29 +48,32 @@ char * concatenate(char *first_word, char *second_word)
 
 char * capitalize_nth_character(char *original_word, int character_to_capitalize)
 {
-	char *new_word;
 	int i;
-  
-  new_word = malloc(strlen(original_word) + 1);
-  
-  if(new_word != NULL)
-  {
-    for(i = 0; i < strlen(original_word); i++)
-    {
-      new_word[i] = original_word[i];
+	char *new_word = NULL;
 
-      if(i == (character_to_capitalize - 1))
+  if(original_word != NULL)
+  {
+  
+    new_word = malloc(strlen(original_word) + 1);
+  
+    if(new_word != NULL)
+    {
+      for(i = 0; i < strlen(original_word); i++)
       {
-        if(original_word[i] >= 'a' && original_word[i] <= 'z')
+        new_word[i] = original_word[i];
+
+        if(i == (character_to_capitalize - 1))
         {
-          new_word[i] = original_word[i] - ('a' - 'A');
+          if(original_word[i] >= 'a' && original_word[i] <= 'z')
+          {
+            new_word[i] = original_word[i] - ('a' - 'A');
+          }
         }
       }
+
+      new_word[i] = '\0';
     }
-
-    new_word[i] = '\0';
   }
-
 
 	return new_word;
 }
