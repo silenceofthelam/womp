@@ -42,7 +42,8 @@ int add_operation(struct operations* container, int (*function)())
   return 0; // False;
 }
 
-int (*get_function_at(struct operations* container, int position))()
+int (*get_function_at(struct operations* container, int position))
+    (char*, struct running_config*)
 {
   if((position < container->number_of_operations) && (position >= 0))
   {

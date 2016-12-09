@@ -33,13 +33,14 @@
 struct operations {
   int number_of_operations;
   int (*functions[MAX_DEFINED_OPERATIONS]) // Array of pointers to
-    (char* first_string, struct running_config* config); // functions
+    (char*, struct running_config*); // functions
 };
 
 void initialize_operations(struct operations* operations);
 
 int add_operation(struct operations* container, int (*function)());
 
-int (*get_function_at(struct operations* container, int position))();
+int (*get_function_at(struct operations* container, int position))
+    (char*, struct running_config*);
 
 #endif

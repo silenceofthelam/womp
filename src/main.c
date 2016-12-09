@@ -153,9 +153,11 @@ FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
 int operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config)
 {
+  int (*operation)(char*, struct running_config*);
+
   for(int i = 0; i < operations->number_of_operations; i++)
   {
-    int (*operation)() = get_function_at(operations, i);
+    operation = get_function_at(operations, i);
 
     if(operation != NULL)
     {
