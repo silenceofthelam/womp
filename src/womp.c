@@ -30,13 +30,6 @@ int permutate_all(char* string, struct running_config* config)
   size_t length_of_line_buffer = 129; // 128 characters + '\0'
   char* new_string;
 
-
-  if(!stdin)
-  {
-    fputs("Input not a valid file descriptor.\nExiting function permutate_all\n", stderr);
-    return WOMP_IO_ERROR;
-  }
-
   line_buffer = malloc(length_of_line_buffer);
   memcheck(line_buffer);
 

@@ -28,6 +28,7 @@
 #include "./womp.h"
 #include "../lib/io.h"
 
+
 /** Forward Declarations **/
 void process_commandline_arguements(int argc, char** argv, struct operations* operations, 
                                     struct running_config* config);
@@ -51,6 +52,7 @@ const char* usage =
 
 int main(int argc, char** argv)
 {
+  int status;
   struct operations operations;
   struct running_config config;
   char* line_buffer;
@@ -69,15 +71,25 @@ int main(int argc, char** argv)
   if(config.performing_permutation && config.using_input_stream)
   {
     config.temp_file = createTemporaryFile(&line_buffer, &length_of_line_buffer);
+    if(!config.temp_file)
+    {
+      fputs("Error creating temporary file.\n", stderr);
+      free(line_buffer);
+      return WOMP_IO_ERROR;
+    }
+      
     stdin = config.temp_file;
   }
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    if(operate_on_string(line_buffer, &operations, &config) != WOMP_OK)
+    if((status = operate_on_string(line_buffer, &operations, &config)) != WOMP_OK)
     {
-      free(line_buffer);
-      fputs("Could not get the operation function.", stderr);
+      if(status == WOMP_FAILURE)
+      {
+        fputs("Could not get the operation function.", stderr);
+      }
+      break;
     }
   }
 
@@ -109,27 +121,27 @@ void process_commandline_arguements(int argc, char** argv, struct operations* op
       case 'p':
         if(!add_operation(operations, permutate_all))
         {
-          DIE("Could not add permutation function to operations.", EXIT_FAILURE);
+          DIE("Could not add permutation function to operations.", WOMP_FAILURE);
         }
         config->performing_permutation = 1; // True
         break;
       case 'o':
         if(!freopen(optarg, "w", stdout))
         {
-          DIE("Could not open file specified by -o option.", EXIT_FAILURE);
+          DIE("Could not open file specified by -o option.", WOMP_FAILURE);
         }
         break;
       case 'i':
         if(!freopen(optarg, "r", stdin))
         {
-          DIE("Could not open file specified by -i option.", EXIT_FAILURE);
+          DIE("Could not open file specified by -i option.", WOMP_FAILURE);
         }
         config->using_input_stream = 0; // False
         break;
       case 'h':
       default:
         print_usage();
-        exit(EXIT_SUCCESS);
+        exit(WOMP_OK);
         break;
     }
   }
@@ -140,12 +152,20 @@ FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
   FILE* temporaryFile;
 
   temporaryFile = tmpfile();
-  while(getline(line_buffer, length_of_line_buffer, stdin) != -1)
+
+  if(temporaryFile)
   {
-    fprintf(temporaryFile, "%s", *line_buffer);
+
+    while(getline(line_buffer, length_of_line_buffer, stdin) != -1)
+    {
+      fprintf(temporaryFile, "%s", *line_buffer);
+    }
+      
+    if(fseek(temporaryFile, 0, SEEK_SET) != 0)
+    {
+      return NULL;
+    }
   }
-    
-  fseek(temporaryFile, 0, SEEK_SET);
   
   return temporaryFile;
 }

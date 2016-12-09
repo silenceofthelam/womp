@@ -27,7 +27,7 @@
 #define DIE(message, status) \
   fputs((message "\nAborting\n"), stderr); exit((status))
 
-#define memcheck(mem) if(!mem) { fputs("Could not allocate memory.", stderr); \
+#define memcheck(mem) if(!mem) { fputs("Could not allocate memory.\n", stderr); \
                                  return WOMP_MEM_ERROR; }
 
 enum WOMP_STATUS { WOMP_OK = 0, WOMP_IO_ERROR = 1, WOMP_MEM_ERROR = 2,
