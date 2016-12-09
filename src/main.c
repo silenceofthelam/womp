@@ -74,10 +74,10 @@ int main(int argc, char** argv)
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
   {
-    if(!operate_on_string(line_buffer, &operations, &config))
+    if(operate_on_string(line_buffer, &operations, &config) != WOMP_OK)
     {
       free(line_buffer);
-      DIE("Could not get the operation function.", EXIT_FAILURE);
+      fputs("Could not get the operation function.", stderr);
     }
   }
 
@@ -153,6 +153,7 @@ FILE* createTemporaryFile(char** line_buffer, size_t* length_of_line_buffer)
 int operate_on_string(char* operable_string, struct operations* operations,
                        struct running_config* config)
 {
+  int status;
   int (*operation)(char*, struct running_config*);
 
   for(int i = 0; i < operations->number_of_operations; i++)
@@ -161,15 +162,19 @@ int operate_on_string(char* operable_string, struct operations* operations,
 
     if(operation != NULL)
     {
-      operation(operable_string, config);
+      if((status = operation(operable_string, config)) != WOMP_OK)
+      {
+        return status;
+      } 
     }
     else
     {
-      return 0; // False
+      return WOMP_FAILURE;
     }
   }
 
-  return 1; // True
+ return WOMP_OK;
+
 }
 
 void print_usage()

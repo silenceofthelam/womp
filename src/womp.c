@@ -33,8 +33,8 @@ int permutate_all(char* string, struct running_config* config)
 
   if(!stdin)
   {
-    fputs("input not a valid file descriptor.\nExiting function permutate_all\n", stderr);
-    return -1;
+    fputs("Input not a valid file descriptor.\nExiting function permutate_all\n", stderr);
+    return WOMP_IO_ERROR;
   }
 
   line_buffer = malloc(length_of_line_buffer);
@@ -46,7 +46,7 @@ int permutate_all(char* string, struct running_config* config)
   {
     fputs("Could not seek to beginnin of input.\nExiting function permutate_all\n", stderr);
     free(line_buffer);
-    return -1;
+    return WOMP_IO_ERROR;
   }
 
   while(getline_remove_newline(&line_buffer, &length_of_line_buffer, stdin) != -1)
@@ -58,15 +58,20 @@ int permutate_all(char* string, struct running_config* config)
       puts(new_string);
       free(new_string);
     }
+    else
+    {
+      return WOMP_MEM_ERROR;
+    }
   }
 
   if(fseek(stdin, orig_stdin_file_position, SEEK_SET) != 0)
   {
     free(line_buffer);
-    DIE("Could not seek to original input position.", EXIT_FAILURE);
+    fputs("Could not seek to original input position.", stderr);
+    return WOMP_IO_ERROR;
   }
 
   free(line_buffer);
 
-  return 0;
+  return WOMP_OK;
 }

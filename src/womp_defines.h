@@ -29,6 +29,7 @@
 
 #define memcheck(mem) if(!mem) { DIE("Could not allocate memory.", EXIT_FAILURE); }
 
-enum WOMP_STATUS { WOMP_OK = 0, WOMP_NOT_OK = 1 };
+enum WOMP_STATUS { WOMP_OK = 0, WOMP_IO_ERROR = 1, WOMP_MEM_ERROR = 2,
+                   WOMP_FAILURE = -1 };
 
 #endif
